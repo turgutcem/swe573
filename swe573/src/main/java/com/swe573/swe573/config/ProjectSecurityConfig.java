@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
+import javax.annotation.PostConstruct;
+
 @Configuration
 public class ProjectSecurityConfig {
 
@@ -15,12 +17,12 @@ public class ProjectSecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
         http.securityContext().requireExplicitSave(false)
                 .and()
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .csrf().ignoringAntMatchers("/register").csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/login","/register").permitAll()
+                .antMatchers("/login/**","/register").permitAll()
                 .and().formLogin()
+                .successForwardUrl("/başarılı")
                 .and().httpBasic();
         return http.build();
     }
@@ -28,4 +30,5 @@ public class ProjectSecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();
     }
+
 }

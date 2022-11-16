@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 public class User {
-    //todo:ROLE eklenecek security ayarları bittikten sonra
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",unique = true)
@@ -72,10 +72,6 @@ public class User {
 
     @Column(name = "enabled")
     private Boolean enabled=false;
-
-
-
-
 
 
 }

@@ -42,7 +42,7 @@ public class Notification {
     private String notificationMessage;
 
     @Column(name="status")
-    private Boolean status;
+    private Boolean status=false;
 
 
 }

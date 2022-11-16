@@ -70,6 +70,10 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Notification> notifications;
 
+    @Column(name = "enabled")
+    private Boolean enabled=false;
+
+
 
 
 

@@ -1,4 +1,4 @@
-package com.swe573.swe573.model.passwordconfig;
+package com.swe573.swe573.config.passwordconfig;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

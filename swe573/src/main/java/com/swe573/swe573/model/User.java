@@ -1,5 +1,6 @@
 package com.swe573.swe573.model;
 
+import com.swe573.swe573.config.passwordconfig.Password;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

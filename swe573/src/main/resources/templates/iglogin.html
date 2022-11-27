@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet"  th:href="@{/css/login.css}"/>
+    <title>Welcome to Info Gatherer</title>
+</head>
+<body>
+<section class="login-page">
+
+    <div class="login">
+        <div class="login-content">
+            <h2>Log in to Info Gatherer</h2>
+            <div th:if="${param.error}">
+                Invalid username or password</div>
+            <div th:if="${param.logout}">
+                You have been logged out.</div>
+            <form th:action="@{/login}" method="post" class="login-form">
+                <input type="email" name="email" placeholder="Email" class="login-user-info">
+                <input type="password" name="password" placeholder="Password" class="login-password">
+            <div>
+                    <button type="submit" class="login-form-btn">Log In</button>
+                    <input type="checkbox" name="remember-me" class="login-form-checkbox" id="check">
+                    <label for="check">Remember me</label>
+                    <a href="@{/forgotpassword}">Forgot password?</a>
+            </div>
+            </form>
+        </div>
+        <footer class="login-footer">
+            <p>New to Info Gatherer? <a th:href="@{/register}">Sign up now</a></p>
+        </footer>
+    </div>
+</section>
+
+</body>
+</html>

@@ -21,13 +21,19 @@
             <div th:if="${param.logout}">
                 You have been logged out.</div>
             <form th:action="@{/login}" method="post" class="login-form">
+                <div th:if="${registrationsuccess}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+                    <p>You have successfully registered.You can now login.</p>
+                </div>
+                <div th:if="${sendpasswordmail}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+                    <p>Your password was sent to your email.Please check your email.</p>
+                </div>
                 <input type="email" name="email" placeholder="Email" class="login-user-info">
                 <input type="password" name="password" placeholder="Password" class="login-password">
             <div>
                     <button type="submit" class="login-form-btn">Log In</button>
                     <input type="checkbox" name="remember-me" class="login-form-checkbox" id="check">
                     <label for="check">Remember me</label>
-                    <a href="@{/forgotpassword}">Forgot password?</a>
+                    <a th:href="@{/forgotpassword}">Forgot password?</a>
             </div>
             </form>
         </div>
@@ -36,6 +42,5 @@
         </footer>
     </div>
 </section>
-
 </body>
 </html>

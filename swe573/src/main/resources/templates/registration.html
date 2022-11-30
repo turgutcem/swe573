@@ -17,20 +17,49 @@
         <div class="login-content">
             <h2>Sign Up to Info Gatherer</h2>
             <form th:object="${registrationDTO}" th:action="@{/register}" method="post" class="login-form">
+
+                <div class="form-group">
+                    <div class="col-xs-15">
+                        <div>
+                            <!-- Check for registration error -->
+                            <div th:if="${registrationEmailError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                <p>User with such email has already been registered</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${#fields.hasErrors('email')}" style="margin-bottom: 25px" class="text-danger">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('email')}" th:text="${err}" />
+                    </ul>
+                </div>
                 <input type="email" name="email" placeholder="Email" class="login-user-info" th:field="*{email}">
+                            <!-- Check for registration error -->
+                            <div th:if="${registrationUsernameError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                <p>User with such username has already been registered</p>
+                            </div>
+
+                <div th:if="${#fields.hasErrors('username')}" style="margin-bottom: 25px" class="text-danger">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('username')}" th:text="${err}" />
+                    </ul>
+                </div>
                 <input type="username" name="username" placeholder="Username" class="login-user-info" th:field="*{username}">
-                <input id="pswd1" type="password" name="password" placeholder="Password" class="login-password" th:field="*{password}">
-                <input id="pswd2" type="password" name="confirmpassword" placeholder="Confirm your password" class="login-password">
+                <input id="pswd1" type="password" name="password" placeholder="Password" class="login-password" th:field="*{password}" onchange="PassCheck();">
+                <div th:if="${#fields.hasErrors('password')}" style="margin-bottom: 25px" class="text-danger">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('password')}" th:text="${err}" />
+                    </ul>
+                </div>
+                <input id="pswd2" type="password" name="confirmpassword" placeholder="Confirm your password" class="login-password" onchange="PassCheck();">
                 <div>
-                    <button type="submit" class="login-form-btn">Sign Up</button>
+                    <button id="button1" type="submit" class="login-form-btn" onchange="PassCheck();">Sign Up</button>
                 </div>
             </form>
         </div>
     </div>
-    <!--<footer class="login-footer">
-        <p>New to Info Gatherer? <a th:href="@{/register}">Sign up now</a></p>
-    </footer>-->
 </section>
-
+<script th:src="@{/js/passwordvalidation.js}"></script>
 </body>
 </html>

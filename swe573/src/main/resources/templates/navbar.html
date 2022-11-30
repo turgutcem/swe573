@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <title>Info Gatherer</title>
+</head>
+<body>
+<nav class="feeds-nav" th:fragment="naviga">
+    <div class="icons">
+        <a th:href="@{/}" class="active"><i class="fas fa-home"></i></a>
+        <a th:href="@{/topics}"><i class="fas fa-hashtag"></i></a>
+        <a th:href="@{/notifications}"><i class="fas fa-bell"></i></a>
+    </div>
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search Info Gatherer" class="search-bar-input">
+    </div>
+    <div class="user">
+        <a href="#" class="user-link">Jane Smith</a>
+        <i class="fas fa-chevron-down"></i>
+    </div>
+</nav>
+<div class="sidebar-wrapper" th:fragment="sideiga">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Account info</h2>
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="sidebar-user-info">
+            <h4>Jane Smith</h4>
+            <p>@janesmith</p>
+        </div>
+        <div class="following">
+            <p class="following-paragraph">
+                <span>873</span> Following
+            </p>
+            <p class="following-paragraph">
+                <span>71.5k</span> Followers
+            </p>
+        </div>
+        <div class="sidebar-list-1">
+            <ul>
+                <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#"><i class="far fa-list-alt"></i>Private GİBİs</a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> Logs</a></li>
+            </ul>
+        </div>
+        <div class="sidebar-list-2">
+            <ul>
+                <li><a href="#">Settings and Privacy</a></li>
+                <li><a th:href="@{/logout}">Log Out</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

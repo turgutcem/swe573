@@ -11,7 +11,7 @@
     <title>Info Gatherer</title>
 </head>
 <body>
-<nav class="feeds-nav" th:fragment="naviga">
+<nav th:object="${iguser}" class="feeds-nav" th:fragment="naviga">
     <div class="icons">
         <a th:href="@{/}" class="active"><i class="fas fa-home"></i></a>
         <a th:href="@{/topics}"><i class="fas fa-hashtag"></i></a>
@@ -22,7 +22,7 @@
         <input type="text" placeholder="Search Info Gatherer" class="search-bar-input">
     </div>
     <div class="user">
-        <a href="#" class="user-link">Jane Smith</a>
+        <a href="#" th:text="*{username}" class="user-link"></a>
         <i class="fas fa-chevron-down"></i>
     </div>
 </nav>
@@ -32,16 +32,12 @@
             <h2>Account info</h2>
             <i class="fas fa-times"></i>
         </div>
-        <div class="sidebar-user-info">
-            <h4>Jane Smith</h4>
-            <p>@janesmith</p>
+        <div th:object="${iguser}" class="sidebar-user-info">
+            <h4 th:text="*{username}"></h4>
         </div>
         <div class="following">
             <p class="following-paragraph">
-                <span>873</span> Following
-            </p>
-            <p class="following-paragraph">
-                <span>71.5k</span> Followers
+                <span>873</span> Friends
             </p>
         </div>
         <div class="sidebar-list-1">

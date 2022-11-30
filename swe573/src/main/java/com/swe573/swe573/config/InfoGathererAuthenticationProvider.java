@@ -51,12 +51,12 @@ public class InfoGathererAuthenticationProvider implements AuthenticationProvide
     public void createDummyUser(){
         User user=new User();
         user.setEmail("deneme@deneme.com");
-        user.setUsername("deneme@deneme.com");
+        user.setUsername("denemeci");
         user.setPassword(passwordEncoder.encode("123456"));
         user.setEnabled(true);
         userRepository.save(user);
         User user1=new User();
-        user1.setUsername("email@email.com");
+        user1.setUsername("eemailci");
         user1.setEmail("email@email.com");
         user1.setPassword(passwordEncoder.encode("password"));
         userRepository.save(user1);

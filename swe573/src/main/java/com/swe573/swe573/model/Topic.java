@@ -23,5 +23,6 @@ public class Topic {
     private String topicName;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @OrderBy("createDate DESC")
     private List<Gibi> gibis;
 }

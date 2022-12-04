@@ -1,5 +1,6 @@
 package com.swe573.swe573.model;
 
+import com.swe573.swe573.model.enums.GibiAccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -38,8 +39,12 @@ public class Gibi {
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Comment> comments;
+
+    @Column(name = "access_level")
+    @Enumerated(EnumType.STRING)
+    private GibiAccessLevel accessLevel;
 
     @Column(name = "url")
     private String URL;

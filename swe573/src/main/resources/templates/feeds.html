@@ -1,0 +1,74 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section th:fragment="feediga" class="feeds-page">
+
+  <!-- Feeds Content -->
+  <div class="feeds-content">
+    <div class="feeds-header">
+      <div class="header-top">
+        <h4>Home</h4>
+      </div>
+    </div>
+    <div class="posts">
+      <div class="post">
+        <div class="post-content">
+          <div class="post-user-info">
+            <h4>Lale Mansur</h4>
+            <span>@lalemansur 15m</span>
+          </div>
+          <p class="post-text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis aliquid est, mollitia commodi aut in
+            eaque quis cumque voluptatibus voluptate illo odio fugiat, neque suscipit nemo error possimus! Quam,
+            suscipit.
+          </p>
+          <a href="https://www.google.com" class="post-icons">
+            <i class="far fa-comment"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button type="button" class="post-btn">
+    +<i class="fas fa-feather-alt"></i> Post
+  </button>
+
+  <!-- Post Modal -->
+  <form th:object="${postGibiDTO}" th:action="@{/postgibi}" method="post" class="modal-wrapper">
+    <div class="modal">
+      <div class="modal-header">
+        <i class="fas fa-times"></i>
+        <button type="submit">Post</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="modal-radio-btn-wrapper">
+          <input th:field="*{gibiAccessLevel}" type="radio" id="public" name="access_level" value="PUBLIC">
+          <label for="public">Public</label><br>
+          <input th:field="*{gibiAccessLevel}" type="radio" id="default" name="access_level" value="PRIVATE">
+          <label for="default">Default</label><br>
+          <input th:field="*{gibiAccessLevel}" type="radio" id="private" name="access_level" value="DEFAULT">
+          <label for="private">Private</label><br>
+        </div>
+
+        <input th:field="*{URL}" type="text" placeholder="URL?" class="modal-input url">
+
+        <input th:field="*{topic}" type="text" placeholder="Topic Name?" class="modal-input url">
+
+        <!--
+                <iframe src="https://www.google.com"></iframe>
+        -->
+        <input th:field="*{onComment}" type="text" placeholder="Your Comment" class="modal-input">
+      </div>
+    </div>
+  </form>
+
+</section>
+</body>
+</html>

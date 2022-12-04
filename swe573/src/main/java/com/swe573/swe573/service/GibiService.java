@@ -3,6 +3,7 @@ package com.swe573.swe573.service;
 import com.swe573.swe573.model.Gibi;
 import com.swe573.swe573.model.Topic;
 import com.swe573.swe573.model.User;
+import com.swe573.swe573.model.dto.GetGibiDTO;
 import com.swe573.swe573.model.dto.PostGibiDTO;
 import com.swe573.swe573.model.enums.GibiAccessLevel;
 import com.swe573.swe573.repo.GibiRepository;
@@ -55,5 +56,26 @@ public class GibiService {
 
         gibiRepository.save(gibi);
 
+    }
+
+    @Transactional
+    public List<GetGibiDTO> getGibiDTOList(){
+        List<Gibi> gibiList=gibiRepository.findAll();
+        return getGibiDTOList(gibiList);
+    }
+
+    private List<GetGibiDTO> getGibiDTOList(List<Gibi> gibiList){
+        List<GetGibiDTO> getGibiDTOList=new ArrayList<>();
+        for(Gibi gibi:gibiList){
+            GetGibiDTO getGibiDTO=new GetGibiDTO();
+            getGibiDTO.setId(gibi.getId());
+            getGibiDTO.setCreatedBy(gibi.getCreatedBy().getUsername());
+            getGibiDTO.setCreateDate(gibi.getCreateDate());
+            getGibiDTO.setURL(gibi.getURL());
+            getGibiDTO.setTopicName(gibi.getTopic().getTopicName());
+            getGibiDTO.setOnComment(gibi.getOnComment());
+            getGibiDTOList.add(getGibiDTO);
+        }
+        return getGibiDTOList;
     }
 }

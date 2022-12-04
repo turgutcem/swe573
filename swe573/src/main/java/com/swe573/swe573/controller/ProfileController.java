@@ -40,66 +40,58 @@ public class ProfileController {
     public String settings(Authentication authentication,
                            Model model,
                            @RequestParam(required = false) boolean usernamechange,
-                           @RequestParam(required = false) boolean passwordchange){
+                           @RequestParam(required = false) boolean passwordchange
+                           ){
         User user=userService.findByEmail(authentication.getName()).get();
         model.addAttribute("iguser",user);
+        model.addAttribute("changeUsernameDTO",new ChangeUsernameDTO());
         model.addAttribute("changePasswordDTO",new ChangePasswordDTO());
         if(usernamechange) model.addAttribute("usernamechange", true);
         if(passwordchange) model.addAttribute("passwordchange",true);
+
         return "settings";
     }
 
-    @GetMapping("/settings/changepassword")
-    public String changePassword(Authentication authentication,
-                                 Model model
-                                 ) {
-        User user=userService.findByEmail(authentication.getName()).get();
-        model.addAttribute("iguser",user);
-        model.addAttribute("changePasswordDTO",new ChangePasswordDTO());
-        return "changepassword";
-    }
 
 
-    @PostMapping("/settings/changepassword")
+
+    @PostMapping("/changepassword")
     public String changePassword(@Valid @ModelAttribute("changePasswordDTO") ChangePasswordDTO changePasswordDTO,
                                  BindingResult bindingResult,
                                  Authentication authentication,
                                  Model model){
         if(bindingResult.hasErrors()){
             model.addAttribute("changePasswordDTO",changePasswordDTO);
+            model.addAttribute("changeUsernameDTO",new ChangeUsernameDTO());
             model.addAttribute("iguser",userService.findByEmail(authentication.getName()).get());
-            return "changepassword";
+            return "settings";
         }
         User user=userService.findByEmail(authentication.getName()).get();
         userService.changePassword(changePasswordDTO,user);
         return "redirect:/settings?passwordchange=true";
     }
 
-    @GetMapping("/settings/changeusername")
-    public String changeUsername(Authentication authentication,
-                                 Model model){
-        /*if(bindingResult.hasErrors()){
-            model.addAttribute("changeUsername",changeUsernameDTO);
-            model.addAttribute("iguser",userService.findByEmail(authentication.getName()).get());
-            return "changeusername";
-        }
-        User user=userService.findByEmail(authentication.getName()).get();
-        //userService.changePassword(changePasswordDTO,user);*/
-        return "redirect:/settings?passwordchange=true";
-    }
 
-    @PostMapping("/settings/changeusername")
-    public String changeUsername(@Valid @ModelAttribute("changePasswordDTO") ChangeUsernameDTO changeUsernameDTO,
+    @PostMapping("/changeusername")
+    public String changeUsername(@Valid @ModelAttribute("changeUsernameDTO") ChangeUsernameDTO changeUsernameDTO,
                                  BindingResult bindingResult,
                                  Authentication authentication,
                                  Model model){
         if(bindingResult.hasErrors()){
-            model.addAttribute("changePasswordDTO",changeUsernameDTO);
+            model.addAttribute("changeUsernameDTO",changeUsernameDTO);
+            model.addAttribute("changePasswordDTO",new ChangePasswordDTO());
             model.addAttribute("iguser",userService.findByEmail(authentication.getName()).get());
-            return "changeusername";
+            return "settings";
+        }
+        if(userService.findByUsername(changeUsernameDTO.getUsername()).isPresent()){
+            model.addAttribute("changeUsernameDTO",changeUsernameDTO);
+            model.addAttribute("changePasswordDTO",new ChangePasswordDTO());
+            model.addAttribute("iguser",userService.findByEmail(authentication.getName()).get());
+            model.addAttribute("usernameexists",true);
+            return "settings";
         }
         User user=userService.findByEmail(authentication.getName()).get();
-        //userService.changePassword(changePasswordDTO,user);
+        userService.changeUsername(changeUsernameDTO,user);
         return "redirect:/settings?usernamechange=true";
     }
 }

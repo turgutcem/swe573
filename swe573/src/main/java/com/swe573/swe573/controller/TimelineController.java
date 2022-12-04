@@ -38,6 +38,8 @@ public class TimelineController {
         User user=userService.findByEmail(authentication.getName()).get();
         model.addAttribute("iguser",user);
         model.addAttribute("postGibiDTO",new PostGibiDTO());
+        model.addAttribute("getGibiDTOList",gibiService.getGibiDTOList());
+
         return "home";
     }
 

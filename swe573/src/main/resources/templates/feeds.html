@@ -15,13 +15,13 @@
       </div>
     </div>
     <div class="posts">
-      <div class="post">
+      <div th:each="gibidto: ${getGibiDTOList}" class="post">
         <div class="post-content">
           <div class="post-user-info">
-            <h4>Lale Mansur</h4>
-            <span>@lalemansur 15m</span>
+            <h4 th:text="${gibidto.createdBy}"></h4>
+            <span th:text="|@${gibidto.createDate}"></span>
           </div>
-          <p class="post-text">
+          <p th:text="${gibidto.onComment}" class="post-text">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis aliquid est, mollitia commodi aut in
             eaque quis cumque voluptatibus voluptate illo odio fugiat, neque suscipit nemo error possimus! Quam,
             suscipit.

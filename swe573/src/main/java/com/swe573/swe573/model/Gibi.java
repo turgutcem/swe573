@@ -39,7 +39,10 @@ public class Gibi {
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,
+            orphanRemoval = true,
+            cascade = CascadeType.ALL)
+    @OrderBy("createDate DESC")
     private List<Comment> comments;
 
     @Column(name = "access_level")

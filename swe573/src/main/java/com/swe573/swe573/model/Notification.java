@@ -34,6 +34,10 @@ public class Notification {
     @JoinColumn(name = "notification_by_user_id",nullable = false)
     private User notifiedUser;
 
+    @ManyToOne
+    @JoinColumn(name = "notifier_by_user_id",nullable = false)
+    private User notifierUser;
+
     @Column(name="notificationType",nullable = false)
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;

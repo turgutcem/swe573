@@ -32,13 +32,14 @@ public class TimelineController {
     private GibiService gibiService;
 
     @GetMapping("/")
-    public String home(@RequestParam(required = false) Long page,
+    public String home(@RequestParam(required = false) Integer page,
                        Authentication authentication,
                        Model model){
         User user=userService.findByEmail(authentication.getName()).get();
         model.addAttribute("iguser",user);
+        model.addAttribute("friendcount",userService.friendCount(user));
         model.addAttribute("postGibiDTO",new PostGibiDTO());
-        model.addAttribute("getGibiDTOList",gibiService.getGibiDTOList());
+        model.addAttribute("getGibiDTOList",gibiService.getTimeline(page!=null?page:0,user));
 
         return "home";
     }
@@ -49,11 +50,12 @@ public class TimelineController {
                            Authentication authentication,
                            Model model){
 
-        if(bindingResult.hasErrors()){}
+        if(bindingResult.hasErrors()){
+            return "redirect:/";
+        }
         User user=userService.findByEmail(authentication.getName()).get();
         gibiService.saveGibi(user,postGibiDTO);
-        System.out.println("postgibi");
-        return "";
+        return "redirect:/";
     }
 
 }

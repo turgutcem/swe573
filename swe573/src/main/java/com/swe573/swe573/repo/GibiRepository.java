@@ -1,20 +1,30 @@
 package com.swe573.swe573.repo;
 
 import com.swe573.swe573.model.Gibi;
+import com.swe573.swe573.model.Topic;
+import com.swe573.swe573.model.User;
+import com.swe573.swe573.model.enums.GibiAccessLevel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+@Repository
 public interface GibiRepository extends JpaRepository<Gibi,Long> {
-    //ya bi interface oluşturulacak , @Query ile join table yapıp return'e interfacei veriyoruz
-    //ayrı bi class oluşturuyoruz.@Query ile join table yapıyoruz,
-   /* @Query("select new com.swe573.swe573.model.dto.DummyDTO(g.URL,g.onComment) from Gibi g ")
-    DummyDTO biseyler();
-
-    @Query("SELECT new net.snitechnology.snicommon.dto.AnalyticResponseDTO(e.companyId, e.doctypeId, e.status, e.createdAt, COUNT(e)) " +
-            "FROM ReportHeader e " +
-            "WHERE e.companyId IN :companyList " +
-            "AND  e.createdAt BETWEEN :start AND :end " +
-            "GROUP BY e.companyId, e.createdAt, e.doctypeId, e.status")
-    List<AnalyticResponseDTO> analyticQuery(List<String> companyList, LocalDateTime start, LocalDateTime end);*/
+    @Query("SELECT g FROM Gibi g WHERE " +
+            "(g.createdBy IN :friends AND g.createdBy IN :beFriendedBy AND g.accessLevel <> :gibiAccessLevel) " +
+            "OR (g.topic IN :followedTopics AND g.accessLevel = :topicAccessLevel)" +
+            "OR (g.createdBy = :user AND g.accessLevel <> :gibiAccessLevel) " +
+            "ORDER BY g.createDate DESC")
+    Page<Gibi> getTimeline(Pageable pageable,
+                           User user,
+                           List<User> friends,
+                           List<User> beFriendedBy,
+                           GibiAccessLevel gibiAccessLevel,
+                           GibiAccessLevel topicAccessLevel,
+                           List<Topic> followedTopics);
 
 
 }

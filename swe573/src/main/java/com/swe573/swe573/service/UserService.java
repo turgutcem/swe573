@@ -34,8 +34,11 @@ public class UserService {
     public void registerUser(UserRegistrationDTO registrationDTO){
         User user=mapper.map(registrationDTO, User.class);
         user.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
-        user.setEnabled(true);
         userRepository.save(user);
+    }
+
+    public int friendCount(User user){
+        return Math.min(user.getBefriended().size(),user.getFriends().size());
     }
 
     @Transactional

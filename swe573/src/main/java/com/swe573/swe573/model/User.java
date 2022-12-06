@@ -12,6 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -54,10 +55,10 @@ public class User {
     @JoinTable(name = "user_friends",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
-    private List<User> friends = null;
+    private List<User> friends = new ArrayList<>();
 
     @ManyToMany(mappedBy = "friends",fetch = FetchType.LAZY)
-    private List<User> befriended = null;
+    private List<User> befriended = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Gibi> userGibis;
@@ -71,8 +72,6 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Notification> notifications;
 
-    @Column(name = "enabled")
-    private Boolean enabled=false;
 
 
 }

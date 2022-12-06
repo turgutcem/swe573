@@ -30,8 +30,6 @@ public class InfoGathererAuthenticationProvider implements AuthenticationProvide
         String pwd=authentication.getCredentials().toString();
         Optional<User> user=userRepository.findByEmail(username);
         if(user.isPresent()){
-            if(!user.get().getEnabled())
-                throw new BadCredentialsException("You should verify your account,please check your email!");
             if(passwordEncoder.matches(pwd, user.get().getPassword())){
                 return new UsernamePasswordAuthenticationToken(username,pwd,new ArrayList<>());
                 }
@@ -53,7 +51,6 @@ public class InfoGathererAuthenticationProvider implements AuthenticationProvide
         user.setEmail("deneme@deneme.com");
         user.setUsername("denemeci");
         user.setPassword(passwordEncoder.encode("123456"));
-        user.setEnabled(true);
         userRepository.save(user);
         User user1=new User();
         user1.setUsername("eemailci");

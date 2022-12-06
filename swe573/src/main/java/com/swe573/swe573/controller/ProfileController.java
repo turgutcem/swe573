@@ -25,7 +25,7 @@ public class ProfileController {
     public String profile(@RequestParam(required = false) String username,
                           Authentication authentication,
                           Model model){
-        if(username==null){
+        if(username==null|| username.equals(userService.findByEmail(authentication.getName()).get().getUsername())){
             User user=userService.findByEmail(authentication.getName()).get();
             model.addAttribute("iguser",user);
             return "profile";
@@ -35,6 +35,9 @@ public class ProfileController {
         }
 
     }
+
+    @GetMapping("/profile/privategibis")
+    public String getPrivategibis(){return null;}
 
     @GetMapping("/settings")
     public String settings(Authentication authentication,

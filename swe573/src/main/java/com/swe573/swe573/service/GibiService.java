@@ -8,6 +8,8 @@ import com.swe573.swe573.model.dto.PostGibiDTO;
 import com.swe573.swe573.model.enums.GibiAccessLevel;
 import com.swe573.swe573.repo.GibiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -62,6 +64,24 @@ public class GibiService {
     public List<GetGibiDTO> getGibiDTOList(){
         List<Gibi> gibiList=gibiRepository.findAll();
         return getGibiDTOList(gibiList);
+    }
+
+    @Transactional
+    public Optional<Gibi> findById(Long id){
+        return gibiRepository.findById(id);
+    }
+
+    @Transactional
+    public List<GetGibiDTO> getTimeline(Integer page, User user){
+        Pageable pageable= PageRequest.of(page,10);
+        return getGibiDTOList(gibiRepository.getTimeline(pageable,
+                                                user,
+                                                user.getFriends(),
+                                                user.getBefriended(),
+                                                GibiAccessLevel.PRIVATE,
+                                                GibiAccessLevel.PUBLIC,
+                                                user.getFollowedTopics())
+                                                .getContent());
     }
 
     private List<GetGibiDTO> getGibiDTOList(List<Gibi> gibiList){

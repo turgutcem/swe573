@@ -18,15 +18,18 @@
       <div th:each="gibidto: ${getGibiDTOList}" class="post">
         <div class="post-content">
           <div class="post-user-info">
-            <h4 th:text="${gibidto.createdBy}"></h4>
-            <span th:text="|@${gibidto.createDate}"></span>
+            <h4 th:text="|@${gibidto.createdBy}|"></h4>
+            <h4 th:text="'#'+ ${gibidto.topicName}"></h4>
+            <span th:text="${#temporals.format(gibidto.createDate,'dd-MM-yyyy HH:mm')}"></span>
           </div>
           <p th:text="${gibidto.onComment}" class="post-text">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis aliquid est, mollitia commodi aut in
             eaque quis cumque voluptatibus voluptate illo odio fugiat, neque suscipit nemo error possimus! Quam,
             suscipit.
           </p>
-          <a href="https://www.google.com" class="post-icons">
+          <a th:href="@{${gibidto.URL}}" th:text="'URL:'+${gibidto.URL}" class="post-text"></a>
+          <br><br>
+          <a th:href="@{/gibis/{id}(id=${gibidto.id})}" class="post-icons">
             <i class="far fa-comment"></i>
           </a>
         </div>
@@ -52,9 +55,9 @@
           <input th:field="*{gibiAccessLevel}" type="radio" id="public" name="access_level" value="PUBLIC">
           <label for="public">Public</label><br>
           <input th:field="*{gibiAccessLevel}" type="radio" id="default" name="access_level" value="PRIVATE">
-          <label for="default">Default</label><br>
+          <label for="default">Private</label><br>
           <input th:field="*{gibiAccessLevel}" type="radio" id="private" name="access_level" value="DEFAULT">
-          <label for="private">Private</label><br>
+          <label for="private">Default</label><br>
         </div>
 
         <input th:field="*{URL}" type="text" placeholder="URL?" class="modal-input url">

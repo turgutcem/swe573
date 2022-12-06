@@ -1,5 +1,6 @@
 package com.swe573.swe573.service;
 
+import com.swe573.swe573.model.Topic;
 import com.swe573.swe573.model.User;
 import com.swe573.swe573.model.dto.ChangePasswordDTO;
 import com.swe573.swe573.model.dto.ChangeUsernameDTO;
@@ -75,6 +76,12 @@ public class UserService {
     @Transactional
     public void changeUsername(ChangeUsernameDTO changeUsernameDTO,User user){
         user.setUsername(changeUsernameDTO.getUsername());
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void followTopic(User user, Topic topic){
+        user.getFollowedTopics().add(topic);
         userRepository.save(user);
     }
 }

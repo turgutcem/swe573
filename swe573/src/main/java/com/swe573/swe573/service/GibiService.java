@@ -24,6 +24,8 @@ public class GibiService {
     private GibiRepository gibiRepository;
     @Autowired
     private TopicService topicService;
+    @Autowired
+    private UserService userService;
 
     @Transactional
     public void saveGibi(User user, PostGibiDTO postGibiDTO){
@@ -45,6 +47,7 @@ public class GibiService {
         Optional<Topic> topic=topicService.findTopicByName(postGibiDTO.getTopic());
         if(topic.isPresent()){
             gibi.setTopic(topic.get());
+            userService.followTopic(user,topic.get());
         }
         else{
             Topic topic1=new Topic();
@@ -54,6 +57,7 @@ public class GibiService {
             topic1.setGibis(gibiList);
             topicService.saveTopic(topic1);
             gibi.setTopic(topic1);
+            userService.followTopic(user,topic1);
         }
 
         gibiRepository.save(gibi);

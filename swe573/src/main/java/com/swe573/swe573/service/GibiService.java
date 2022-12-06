@@ -4,6 +4,7 @@ import com.swe573.swe573.model.Gibi;
 import com.swe573.swe573.model.Topic;
 import com.swe573.swe573.model.User;
 import com.swe573.swe573.model.dto.GetGibiDTO;
+import com.swe573.swe573.model.dto.PostCommentDTO;
 import com.swe573.swe573.model.dto.PostGibiDTO;
 import com.swe573.swe573.model.enums.GibiAccessLevel;
 import com.swe573.swe573.repo.GibiRepository;
@@ -26,6 +27,9 @@ public class GibiService {
     private TopicService topicService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CommentService commentService;
+
 
     @Transactional
     public void saveGibi(User user, PostGibiDTO postGibiDTO){
@@ -86,6 +90,11 @@ public class GibiService {
                                                 GibiAccessLevel.PUBLIC,
                                                 user.getFollowedTopics())
                                                 .getContent());
+    }
+
+    @Transactional
+    public void addComment(User user, PostCommentDTO commentDTO){
+        commentService.saveComment(user,commentDTO);
     }
 
     private List<GetGibiDTO> getGibiDTOList(List<Gibi> gibiList){

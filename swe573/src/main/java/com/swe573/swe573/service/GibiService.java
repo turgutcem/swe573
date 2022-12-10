@@ -48,14 +48,15 @@ public class GibiService {
         }
         gibi.setURL(postGibiDTO.getURL());
         gibi.setOnComment(postGibiDTO.getOnComment());
-        Optional<Topic> topic=topicService.findTopicByName(postGibiDTO.getTopic());
+        String topicName= postGibiDTO.getTopic().replaceAll("\\s", "").toLowerCase();
+        Optional<Topic> topic=topicService.findTopicByName(topicName);
         if(topic.isPresent()){
             gibi.setTopic(topic.get());
             userService.followTopic(user,topic.get());
         }
         else{
             Topic topic1=new Topic();
-            topic1.setTopicName(postGibiDTO.getTopic());
+            topic1.setTopicName(topicName);
             List<Gibi> gibiList=new ArrayList<>();
             gibiList.add(gibi);
             topic1.setGibis(gibiList);
@@ -72,6 +73,14 @@ public class GibiService {
     public List<GetGibiDTO> getGibiDTOList(){
         List<Gibi> gibiList=gibiRepository.findAll();
         return getGibiDTOList(gibiList);
+    }
+
+    @Transactional
+    public List<GetGibiDTO> getMyProfile(Integer page,User user){
+        Pageable pageable= PageRequest.of(page,10);
+        return getGibiDTOList(gibiRepository.getMyProfile(pageable,
+                                                          user,GibiAccessLevel.PRIVATE).getContent());
+
     }
 
     @Transactional

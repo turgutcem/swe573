@@ -85,6 +85,22 @@ public class UserService {
     }
 
     @Transactional
+    public void sendFriendshipRequest(User sender,User receiver){
+        sender.getFriends().add(receiver);
+        receiver.getBefriended().add(sender);
+        userRepository.save(sender);
+        userRepository.save(receiver);
+    }
+
+    @Transactional
+    public void acceptFriendship(User sender,User receiver){
+        sender.getBefriended().add(receiver);
+        receiver.getFriends().add(sender);
+        userRepository.save(sender);
+        userRepository.save(receiver);
+    }
+
+    @Transactional
     public List<User> getFriends(User user){
         List<User> friends=new ArrayList<>(user.getFriends());
         friends.retainAll(user.getBefriended());

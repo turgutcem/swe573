@@ -3,6 +3,7 @@ package com.swe573.swe573.controller;
 import com.swe573.swe573.model.User;
 import com.swe573.swe573.model.dto.ChangePasswordDTO;
 import com.swe573.swe573.model.dto.ChangeUsernameDTO;
+import com.swe573.swe573.model.dto.FriendshipRequestDTO;
 import com.swe573.swe573.service.GibiService;
 import com.swe573.swe573.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class ProfileController {
             model.addAttribute("commonfriends",userService.friendsInCommon(user,user2));
             model.addAttribute("friendshipstatus",userService.friendshipStatus(user,user2));
             model.addAttribute("getGibiDTOList",gibiService.getMyProfile(page!=null?page:0,user2));
+            model.addAttribute("friendshiprequest",new FriendshipRequestDTO());
             model.addAttribute("iguser",user);
             model.addAttribute("iguser2",user2);
             return "profile";
@@ -52,6 +54,29 @@ public class ProfileController {
             return "redirect:/";
         }
 
+    }
+
+    @PostMapping("/friendshiprequest")
+    public String friendshipRequest(@Valid @ModelAttribute("friendshiprequest") FriendshipRequestDTO friendshipRequestDTO,
+                                    BindingResult bindingResult,
+                                    Model model){
+        userService.sendFriendshipRequest(userService.findByUsername(friendshipRequestDTO.getSender()).get(),userService.findByUsername(friendshipRequestDTO.getReceiver()).get());
+        return "redirect:/profile?username="+friendshipRequestDTO.getReceiver();
+    }
+
+    @PostMapping("/acceptfriendship")
+    public String acceptFriendship(@Valid @ModelAttribute("friendshiprequest") FriendshipRequestDTO friendshipRequestDTO,
+                                   BindingResult bindingResult,
+                                   Model model){
+        userService.acceptFriendship(userService.findByUsername(friendshipRequestDTO.getSender()).get(),userService.findByUsername(friendshipRequestDTO.getReceiver()).get());
+        return "redirect:/profile?username="+friendshipRequestDTO.getSender();
+    }
+
+    @PostMapping("/deletefriendship")
+    public String deleteFriendship(@Valid @ModelAttribute("friendshiprequest") FriendshipRequestDTO friendshipRequestDTO,
+                                   BindingResult bindingResult,
+                                   Model model){
+        return null;
     }
 
     @GetMapping("/profile/privategibis")

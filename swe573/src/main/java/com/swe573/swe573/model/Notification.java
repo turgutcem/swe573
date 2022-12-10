@@ -31,12 +31,12 @@ public class Notification {
     private LocalDateTime updateDate;
 
     @ManyToOne
-    @JoinColumn(name = "notification_by_user_id",nullable = false)
-    private User notifiedUser;
+    @JoinColumn(name = "sender",nullable = false)
+    private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "notifier_by_user_id",nullable = false)
-    private User notifierUser;
+    @JoinColumn(name = "receiver",nullable = false)
+    private User receiver;
 
     @Column(name="notificationType",nullable = false)
     @Enumerated(EnumType.STRING)

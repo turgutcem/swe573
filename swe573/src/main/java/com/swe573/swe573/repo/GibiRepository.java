@@ -29,5 +29,11 @@ public interface GibiRepository extends JpaRepository<Gibi,Long> {
             "AND g.createdBy = :user ORDER BY g.createDate DESC")
     Page<Gibi> getMyProfile(Pageable pageable,User user,GibiAccessLevel gibiAccessLevel);
 
+    Page<Gibi> findByCreatedByOrderByCreateDateDesc(User createdBy, Pageable pageable);
+
+    Page<Gibi> findByCreatedByAndAccessLevelOrderByCreateDateDesc(User createdBy, GibiAccessLevel accessLevel, Pageable pageable);
+
+
+
 
 }

@@ -60,8 +60,8 @@
                 Friendship request was sent
             </h2>
             <form th:action="@{/deletefriendship}" method="post" th:object="${friendshiprequest}" th:case="${T(com.swe573.swe573.model.enums.FriendshipStatus).FRIEND}">
-              <input type="hidden" th:field="*{receiver}" th:value="${iguser}">
-              <input type="hidden" th:field="*{sender}" th:value="${iguser2}">
+              <input type="hidden" th:name="sender" th:value="${iguser.username}">
+              <input type="hidden" th:name="receiver" th:value="${iguser2.username}">
               <div>
                 <button type="submit" class="login-form-btn">Delete from friends</button>
               </div>

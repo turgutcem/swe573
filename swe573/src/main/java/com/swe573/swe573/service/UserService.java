@@ -1,11 +1,13 @@
 package com.swe573.swe573.service;
 
+import com.swe573.swe573.model.Notification;
 import com.swe573.swe573.model.Topic;
 import com.swe573.swe573.model.User;
 import com.swe573.swe573.model.dto.ChangePasswordDTO;
 import com.swe573.swe573.model.dto.ChangeUsernameDTO;
 import com.swe573.swe573.model.dto.UserRegistrationDTO;
 import com.swe573.swe573.model.enums.FriendshipStatus;
+import com.swe573.swe573.model.enums.NotificationType;
 import com.swe573.swe573.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -13,6 +15,7 @@ import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -91,6 +94,15 @@ public class UserService {
         userRepository.save(sender);
         userRepository.save(receiver);
     }
+    @Transactional
+    public void deleteFriend(User sender,User receiver){
+        sender.getFriends().remove(receiver);
+        sender.getBefriended().remove(receiver);
+        receiver.getBefriended().remove(sender);
+        receiver.getFriends().remove(sender);
+        userRepository.save(sender);
+        userRepository.save(receiver);
+    }
 
     @Transactional
     public void acceptFriendship(User sender,User receiver){
@@ -123,6 +135,7 @@ public class UserService {
         user1Friends.retainAll(user2Friends);
         return user1Friends.size();
     }
+
 
     public int friendCount(User user){
         List<User> friends=new ArrayList<>(user.getFriends());

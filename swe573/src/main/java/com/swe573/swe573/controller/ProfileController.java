@@ -76,11 +76,23 @@ public class ProfileController {
     public String deleteFriendship(@Valid @ModelAttribute("friendshiprequest") FriendshipRequestDTO friendshipRequestDTO,
                                    BindingResult bindingResult,
                                    Model model){
-        return null;
+        User user1=userService.findByUsername(friendshipRequestDTO.getSender()).get();
+        User user2=userService.findByUsername(friendshipRequestDTO.getReceiver()).get();
+        userService.deleteFriend(user1,user2);
+        return "redirect:/profile?username="+friendshipRequestDTO.getReceiver();
     }
 
-    @GetMapping("/profile/privategibis")
-    public String getPrivategibis(){return null;}
+    @GetMapping("/privategibis")
+    public String getPrivateGibis(Authentication authentication,
+                                  Model model,
+                                  @RequestParam(required = false) Integer page)
+    {
+        User user=userService.findByEmail(authentication.getName()).get();
+        model.addAttribute("iguser",user);
+        model.addAttribute("friendcount",userService.friendCount(user));
+        model.addAttribute("getGibiDTOList",gibiService.getPrivateGibis(page!=null?page:0,user));
+        return "privategibis";
+    }
 
     @GetMapping("/settings")
     public String settings(Authentication authentication,

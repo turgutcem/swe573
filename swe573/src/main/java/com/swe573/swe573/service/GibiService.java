@@ -102,6 +102,12 @@ public class GibiService {
     }
 
     @Transactional
+    public List<GetGibiDTO> getPrivateGibis(Integer page,User user){
+        Pageable pageable=PageRequest.of(page,10);
+        return getGibiDTOList(gibiRepository.findByCreatedByOrderByCreateDateDesc(user,pageable).getContent());
+    }
+
+    @Transactional
     public void addComment(User user, PostCommentDTO commentDTO){
         commentService.saveComment(user,commentDTO);
     }

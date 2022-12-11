@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,8 +27,11 @@ public class TopicService
 
     @Transactional
     public List<Topic> topicRecommendation(List<Topic> followedTopics){
-        return topicsRepository.findByIdNotIn(followedTopics.stream()
-                .map(Topic::getId).collect(Collectors.toList()));
+        if(followedTopics.size()!=0)
+        return topicsRepository.findByTopicNameNotIn
+                (followedTopics.stream().
+                        map(Topic::getTopicName).collect(Collectors.toList()));
+        else return topicsRepository.findAll();
     }
 
     @Transactional

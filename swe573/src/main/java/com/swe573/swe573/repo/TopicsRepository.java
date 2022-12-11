@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface TopicsRepository extends JpaRepository<Topic,Long> {
 
     Optional<Topic> findByTopicName(String topicName);
-    List<Topic> findByIdNotIn(Collection<Long> ids);
+
+    List<Topic> findByTopicNameNotIn(List<String> topicNames);
+
 
 }

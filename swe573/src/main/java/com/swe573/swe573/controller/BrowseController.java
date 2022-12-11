@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class BrowseController {
@@ -45,9 +43,19 @@ public class BrowseController {
         model.addAttribute("friendcount",userService.friendCount(user));
         model.addAttribute("isfollowed",user.getFollowedTopics().contains(topic));
         model.addAttribute("followedby",topic.getFollowedBy().size());
+        model.addAttribute("topic",topic);
         model.addAttribute("topicgibis",topicService.getTopicPageGibis(topic,user));
 
         return "topic";
+    }
+
+    @PostMapping("/unfollow")
+    public String unfollow( @RequestBody String topic,
+                            Authentication authentication){
+
+        User user=userService.findByEmail(authentication.getName()).get();
+        topicService.unfollow(user,topicService.findTopicByName(topic).get());
+        return "redirect:/topics/"+topic;
     }
 
     @GetMapping("/users")

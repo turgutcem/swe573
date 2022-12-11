@@ -14,7 +14,29 @@
 <body>
 <nav th:insert="navbar.html :: naviga" ></nav>
 <div th:insert="navbar.html :: sideiga"></div>
-
+<section class="feeds-page">
+  <div class="feeds-content">
+    <div class="feeds-header">
+      <div class="header-top">
+        <div class="posts">
+          <div th:if="${isfollowed}" class="post-content">
+            <h1>Profile Information:</h1>
+            <br><br>
+            <h2 th:text="'Topic name: #'+${topic.topicName}"></h2>
+            <br><br>
+            <h2 th:text="'Followed by '+${followedby}+' people'"></h2>
+            <br><br>
+            <form th:action="@{/unfollow}" method="post">
+              <input type="hidden" th:name="topic" th:value="${topic.topicName}">
+              <div>
+                <button type="submit" class="login-form-btn">Unfollow</button>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+  </div>
+</section>
 
 </body>
 </html>

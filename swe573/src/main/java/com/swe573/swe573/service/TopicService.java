@@ -6,11 +6,11 @@ import com.swe573.swe573.model.User;
 import com.swe573.swe573.model.enums.GibiAccessLevel;
 import com.swe573.swe573.repo.GibiRepository;
 import com.swe573.swe573.repo.TopicsRepository;
+import com.swe573.swe573.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +24,9 @@ public class TopicService
 
     @Autowired
     private GibiRepository gibiRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional
     public List<Topic> topicRecommendation(List<Topic> followedTopics){
@@ -45,6 +48,14 @@ public class TopicService
 
     @Transactional
     public void saveTopic(Topic topic){
+        topicsRepository.save(topic);
+    }
+
+    @Transactional
+    public void unfollow(User user,Topic topic){
+        user.getFollowedTopics().remove(topic);
+        topic.getFollowedBy().remove(user);
+        userRepository.save(user);
         topicsRepository.save(topic);
     }
 

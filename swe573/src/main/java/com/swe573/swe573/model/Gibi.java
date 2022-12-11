@@ -42,7 +42,7 @@ public class Gibi {
     @OneToMany(fetch = FetchType.LAZY,
             orphanRemoval = true,
             cascade = CascadeType.ALL)
-    @OrderBy("createDate DESC")
+    @OrderBy("createDate ASC")
     private List<Comment> comments;
 
     @Column(name = "access_level")

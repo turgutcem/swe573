@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Gibi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+  <link rel="stylesheet" th:href="@{/css/feeds.css}"/>
+</head>
+<body>
+<nav th:insert="navbar.html :: naviga" ></nav>
+<div th:insert="navbar.html :: sideiga"></div>
+
+<section class="feeds-page">
+  <div class="feeds-content">
+  <div class="feeds-header">
+    <div class="header-top">
+      <div th:if="${self}" class="posts">
+        <div class="post-content">
+          <h1>Profile Information:</h1>
+          <br><br>
+          <h2 th:text="'Username: '+${iguser.username}"></h2>
+          <br><br>
+          <h2 th:text="'Join Date: '+${#temporals.format(iguser.createDate,'dd-MM-yyyy HH:mm')}"></h2>
+          <br><br>
+        </div>
+        </div>
+      <div th:unless="${self}" class="posts">
+        <div class="post-content">
+          <h1>Profile Information:</h1>
+          <br><br>
+          <h2 th:text="'Username: '+${iguser2.username}"></h2>
+          <br><br>
+          <h2 th:text="'Join Date :'+${#temporals.format(iguser2.createDate,'dd-MM-yyyy HH:mm')}"></h2>
+          <br><br>
+          <h2 th:text="'You have '+${commonfriends}+' common friends'"></h2>
+          <br><br>
+          <div th:switch="${friendshipstatus}">
+            <form th:action="@{/friendshiprequest}" method="post" th:object="${friendshiprequest}" th:case="${T(com.swe573.swe573.model.enums.FriendshipStatus).NOTHING}">
+              <input type="hidden" th:name="sender" th:value="${iguser.username}">
+              <input type="hidden" th:name="receiver" th:value="${iguser2.username}">
+              <div>
+                <button type="submit" class="login-form-btn">Send Friendship Request</button>
+              </div>
+            </form>
+            <form th:action="@{/acceptfriendship}" method="post" th:object="${friendshiprequest}" th:case="${T(com.swe573.swe573.model.enums.FriendshipStatus).REQUESTRECIEVED}">
+              <input type="hidden" th:name="receiver" th:value="${iguser.username}">
+              <input type="hidden" th:name="sender" th:value="${iguser2.username}">
+              <div>
+                <h2>This user sent you a friendship request.</h2>
+                <br><br>
+                <button type="submit" class="login-form-btn">Accept Friendship Request</button>
+              </div>
+            </form>
+            <h2 th:case="${T(com.swe573.swe573.model.enums.FriendshipStatus).REQUESTSENT}">
+                Friendship request was sent
+            </h2>
+            <form th:action="@{/deletefriendship}" method="post" th:object="${friendshiprequest}" th:case="${T(com.swe573.swe573.model.enums.FriendshipStatus).FRIEND}">
+              <input type="hidden" th:name="sender" th:value="${iguser.username}">
+              <input type="hidden" th:name="receiver" th:value="${iguser2.username}">
+              <div>
+                <button type="submit" class="login-form-btn">Delete from friends</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div th:if="${self} OR ${friendshipstatus == T(com.swe573.swe573.model.enums.FriendshipStatus).FRIEND}" class="posts">
+    <div th:each="gibidto: ${getGibiDTOList}" class="post">
+      <div class="post-content">
+        <div class="post-user-info">
+          <h4 th:text="|@${gibidto.createdBy}|"></h4>
+          <h4 th:text="'#'+ ${gibidto.topicName}"></h4>
+          <span th:text="${#temporals.format(gibidto.createDate,'dd-MM-yyyy HH:mm')}"></span>
+        </div>
+        <p th:text="${gibidto.onComment}" class="post-text">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis aliquid est, mollitia commodi aut in
+          eaque quis cumque voluptatibus voluptate illo odio fugiat, neque suscipit nemo error possimus! Quam,
+          suscipit.
+        </p>
+        <a th:href="@{${gibidto.URL}}" th:text="'URL:'+${gibidto.URL}" class="post-text"></a>
+        <br><br>
+        <a th:href="@{/gibis/{id}(id=${gibidto.id})}" class="post-icons">
+          <i class="far fa-comment"></i>
+        </a>
+      </div>
+    </div>
+    </div>
+
+</div>
+</section>
+  <script th:src="@{/js/sidebar.js}"></script>
+  <script th:src="@{/js/postmodal.js}"></script>
+</body>
+</html>

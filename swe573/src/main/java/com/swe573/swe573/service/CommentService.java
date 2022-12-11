@@ -6,6 +6,7 @@ import com.swe573.swe573.model.User;
 import com.swe573.swe573.model.dto.PostCommentDTO;
 import com.swe573.swe573.repo.CommentRepository;
 import com.swe573.swe573.repo.GibiRepository;
+import com.swe573.swe573.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,12 @@ public class CommentService {
     @Autowired
     private GibiRepository gibiRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private NotificationService notificationService;
+
     @Transactional
     public void saveComment(User user, PostCommentDTO postCommentDTO){
         Comment comment = convertFromDTO(user,postCommentDTO);
@@ -26,6 +33,10 @@ public class CommentService {
         Gibi gibi=gibiRepository.findById(postCommentDTO.getGibiId()).get();
         gibi.getComments().add(comment);
         gibiRepository.save(gibi);
+        user.getUserComments().add(comment);
+        userRepository.save(user);
+
+        notificationService.sendCommentNotification(user,gibi.getCreatedBy(),comment);
     }
 
     private Comment convertFromDTO(User user,PostCommentDTO postCommentDTO){

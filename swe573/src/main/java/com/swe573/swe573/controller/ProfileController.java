@@ -35,7 +35,7 @@ public class ProfileController {
             User user=userService.findByEmail(authentication.getName()).get();
             model.addAttribute("iguser",user);
             model.addAttribute("friendcount",userService.friendCount(user));
-            model.addAttribute("getGibiDTOList",gibiService.getMyProfile(page!=null?page:0,user));
+            model.addAttribute("getGibiDTOList",gibiService.getMyProfile(user));
             model.addAttribute("self",true);
             return "profile";
         } else if (userService.findByUsername(username).isPresent()) {
@@ -45,7 +45,7 @@ public class ProfileController {
             model.addAttribute("friendcount",userService.friendCount(user));
             model.addAttribute("commonfriends",userService.friendsInCommon(user,user2));
             model.addAttribute("friendshipstatus",userService.friendshipStatus(user,user2));
-            model.addAttribute("getGibiDTOList",gibiService.getMyProfile(page!=null?page:0,user2));
+            model.addAttribute("getGibiDTOList",gibiService.getMyProfile(user2));
             model.addAttribute("friendshiprequest",new FriendshipRequestDTO());
             model.addAttribute("iguser",user);
             model.addAttribute("iguser2",user2);

@@ -76,10 +76,9 @@ public class GibiService {
     }
 
     @Transactional
-    public List<GetGibiDTO> getMyProfile(Integer page,User user){
-        Pageable pageable= PageRequest.of(page,10);
-        return getGibiDTOList(gibiRepository.getMyProfile(pageable,
-                                                          user,GibiAccessLevel.PRIVATE).getContent());
+    public List<GetGibiDTO> getMyProfile(User user){
+        return getGibiDTOList(gibiRepository.getMyProfile(
+                                                          user,GibiAccessLevel.PRIVATE));
 
     }
 
@@ -103,8 +102,8 @@ public class GibiService {
 
     @Transactional
     public List<GetGibiDTO> getPrivateGibis(Integer page,User user){
-        Pageable pageable=PageRequest.of(page,10);
-        return getGibiDTOList(gibiRepository.findByCreatedByOrderByCreateDateDesc(user,pageable).getContent());
+
+        return getGibiDTOList(gibiRepository.findByCreatedByAndAccessLevelOrderByCreateDateDesc(user,GibiAccessLevel.PRIVATE));
     }
 
     @Transactional

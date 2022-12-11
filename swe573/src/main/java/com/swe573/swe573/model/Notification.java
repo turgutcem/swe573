@@ -42,6 +42,9 @@ public class Notification {
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
 
+    @Column(name="gibiID",nullable = true)
+    private Long gibiID;
+
     @Column(name="notificationMessage",nullable = false)
     private String notificationMessage;
 

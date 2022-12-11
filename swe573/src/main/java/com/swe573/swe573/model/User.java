@@ -63,13 +63,15 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Gibi> userGibis;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,orphanRemoval = true,
+            cascade = CascadeType.ALL)
     private List<Comment> userComments;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Topic> followedTopics;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @OrderBy("createDate DESC")
     private List<Notification> notifications;
 
 

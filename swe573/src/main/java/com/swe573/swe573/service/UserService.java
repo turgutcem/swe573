@@ -7,7 +7,6 @@ import com.swe573.swe573.model.dto.ChangePasswordDTO;
 import com.swe573.swe573.model.dto.ChangeUsernameDTO;
 import com.swe573.swe573.model.dto.UserRegistrationDTO;
 import com.swe573.swe573.model.enums.FriendshipStatus;
-import com.swe573.swe573.model.enums.NotificationType;
 import com.swe573.swe573.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -15,7 +14,6 @@ import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +34,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private NotificationService notificationService;
 
     @Transactional
     public void registerUser(UserRegistrationDTO registrationDTO){
@@ -93,6 +93,7 @@ public class UserService {
         receiver.getBefriended().add(sender);
         userRepository.save(sender);
         userRepository.save(receiver);
+        notificationService.sendFriendshipNotification(sender,receiver);
     }
     @Transactional
     public void deleteFriend(User sender,User receiver){

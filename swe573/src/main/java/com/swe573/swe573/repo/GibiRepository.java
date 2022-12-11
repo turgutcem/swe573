@@ -25,6 +25,13 @@ public interface GibiRepository extends JpaRepository<Gibi,Long> {
                            GibiAccessLevel gibiAccessLevel,
                            GibiAccessLevel topicAccessLevel,
                            List<Topic> followedTopics);
+    @Query("SELECT g FROM Gibi g WHERE g.accessLevel <> :gibiAccessLevel " +
+            "AND g.createdBy = :user ORDER BY g.createDate DESC")
+    List<Gibi> getMyProfile(User user,GibiAccessLevel gibiAccessLevel);
+
+    List<Gibi> findByCreatedByAndAccessLevelOrderByCreateDateDesc(User createdBy, GibiAccessLevel accessLevel);
+
+
 
 
 }

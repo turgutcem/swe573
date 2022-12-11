@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Gibi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+  <link rel="stylesheet" th:href="@{/css/feeds.css}"/>
+</head>
+<body>
+<nav th:insert="navbar.html :: naviga" ></nav>
+<div th:insert="navbar.html :: sideiga"></div>
+
+<section class="feeds-page">
+  <div class="feeds-content">
+    <div class="feeds-header">
+        <div class="header-top">
+            <div class="post-content">
+              <h2>Your private gibis</h2>
+            </div>
+          </div>
+      </div>
+
+  <div class="posts">
+    <div th:each="gibidto: ${getGibiDTOList}" class="post">
+      <div class="post-content">
+        <div class="post-user-info">
+          <h4 th:text="|@${gibidto.createdBy}|"></h4>
+          <h4 th:text="'#'+ ${gibidto.topicName}"></h4>
+          <span th:text="${#temporals.format(gibidto.createDate,'dd-MM-yyyy HH:mm')}"></span>
+        </div>
+        <p th:text="${gibidto.onComment}" class="post-text">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis aliquid est, mollitia commodi aut in
+          eaque quis cumque voluptatibus voluptate illo odio fugiat, neque suscipit nemo error possimus! Quam,
+          suscipit.
+        </p>
+        <a th:href="@{${gibidto.URL}}" th:text="'URL:'+${gibidto.URL}" class="post-text"></a>
+        <br><br>
+        <a th:href="@{/gibis/{id}(id=${gibidto.id})}" class="post-icons">
+          <i class="far fa-comment"></i>
+        </a>
+      </div>
+    </div>
+  </div></div>
+
+</section>
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/postmodal.js}"></script>
+</body>
+</html>

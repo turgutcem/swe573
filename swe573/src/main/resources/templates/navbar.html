@@ -14,8 +14,8 @@
 <nav th:object="${iguser}" class="feeds-nav" th:fragment="naviga">
     <div class="icons">
         <a th:href="@{/}" class="active"><i class="fas fa-home"></i></a>
-        <a th:href="@{/browse/topics}"><i class="fas fa-hashtag"></i></a>
-        <a th:href="@{/browse/users}"><i class="fas fa-user-friends"></i></a>
+        <a th:href="@{/topics}"><i class="fas fa-hashtag"></i></a>
+        <a th:href="@{/users}"><i class="fas fa-user-friends"></i></a>
         <a th:href="@{/notifications}"><i class="fas fa-bell"></i></a>
     </div>
     <div class="search-bar">
@@ -45,7 +45,7 @@
             <ul>
                 <li><a th:href="@{/profile}"><i class="fas fa-user"></i>Profile</a></li>
                 <li><a th:href="@{/privategibis}"><i class="far fa-list-alt"></i>Private GİBİs</a></li>
-                <li><a th:href="@{/logs}"><i class="fas fa-chart-line"></i>Logs</a></li>
+                <li><a th:href="@{/stats}"><i class="fas fa-chart-line"></i>Stats</a></li>
             </ul>
         </div>
         <div class="sidebar-list-2">

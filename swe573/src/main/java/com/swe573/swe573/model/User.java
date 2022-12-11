@@ -61,14 +61,14 @@ public class User {
     private List<User> befriended = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<Gibi> userGibis;
+    private List<Gibi> userGibis=new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY,orphanRemoval = true,
             cascade = CascadeType.ALL)
-    private List<Comment> userComments;
+    private List<Comment> userComments=new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Topic> followedTopics;
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "followedBy")
+    private List<Topic> followedTopics=new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
     @OrderBy("createDate DESC")

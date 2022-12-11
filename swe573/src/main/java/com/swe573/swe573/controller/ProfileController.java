@@ -104,6 +104,7 @@ public class ProfileController {
         model.addAttribute("iguser",user);
         model.addAttribute("changeUsernameDTO",new ChangeUsernameDTO());
         model.addAttribute("changePasswordDTO",new ChangePasswordDTO());
+        model.addAttribute("friendcount",userService.friendCount(user));
         if(usernamechange) model.addAttribute("usernamechange", true);
         if(passwordchange) model.addAttribute("passwordchange",true);
 
@@ -122,6 +123,7 @@ public class ProfileController {
             model.addAttribute("changePasswordDTO",changePasswordDTO);
             model.addAttribute("changeUsernameDTO",new ChangeUsernameDTO());
             model.addAttribute("iguser",userService.findByEmail(authentication.getName()).get());
+            model.addAttribute("friendcount",userService.friendCount(userService.findByEmail(authentication.getName()).get()));
             return "settings";
         }
         User user=userService.findByEmail(authentication.getName()).get();
@@ -135,10 +137,12 @@ public class ProfileController {
                                  BindingResult bindingResult,
                                  Authentication authentication,
                                  Model model){
+        User user=userService.findByEmail(authentication.getName()).get();
         if(bindingResult.hasErrors()){
             model.addAttribute("changeUsernameDTO",changeUsernameDTO);
             model.addAttribute("changePasswordDTO",new ChangePasswordDTO());
             model.addAttribute("iguser",userService.findByEmail(authentication.getName()).get());
+            model.addAttribute("friendcount",userService.friendCount(user));
             return "settings";
         }
         if(userService.findByUsername(changeUsernameDTO.getUsername()).isPresent()){
@@ -146,9 +150,10 @@ public class ProfileController {
             model.addAttribute("changePasswordDTO",new ChangePasswordDTO());
             model.addAttribute("iguser",userService.findByEmail(authentication.getName()).get());
             model.addAttribute("usernameexists",true);
+            model.addAttribute("friendcount",userService.friendCount(user));
             return "settings";
         }
-        User user=userService.findByEmail(authentication.getName()).get();
+
         userService.changeUsername(changeUsernameDTO,user);
         return "redirect:/settings?usernamechange=true";
     }

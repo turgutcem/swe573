@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -43,7 +44,7 @@ public class Gibi {
             orphanRemoval = true,
             cascade = CascadeType.ALL)
     @OrderBy("createDate ASC")
-    private List<Comment> comments;
+    private List<Comment> comments=new ArrayList<>();
 
     @Column(name = "access_level")
     @Enumerated(EnumType.STRING)

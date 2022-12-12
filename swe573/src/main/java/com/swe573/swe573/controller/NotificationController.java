@@ -1,6 +1,7 @@
 package com.swe573.swe573.controller;
 
 import com.swe573.swe573.model.User;
+import com.swe573.swe573.model.dto.SearchDTO;
 import com.swe573.swe573.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ public class NotificationController {
         User user=userService.findByEmail(authentication.getName()).get();
         model.addAttribute("iguser",user);
         model.addAttribute("friendcount",userService.friendCount(user));
+        model.addAttribute("searchObject",new SearchDTO());
         model.addAttribute("notifications",user.getNotifications());
         return "notifications";
     }

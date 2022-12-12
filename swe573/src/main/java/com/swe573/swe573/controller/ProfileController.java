@@ -4,6 +4,7 @@ import com.swe573.swe573.model.User;
 import com.swe573.swe573.model.dto.ChangePasswordDTO;
 import com.swe573.swe573.model.dto.ChangeUsernameDTO;
 import com.swe573.swe573.model.dto.FriendshipRequestDTO;
+import com.swe573.swe573.model.dto.SearchDTO;
 import com.swe573.swe573.service.GibiService;
 import com.swe573.swe573.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class ProfileController {
             User user=userService.findByEmail(authentication.getName()).get();
             model.addAttribute("iguser",user);
             model.addAttribute("friendcount",userService.friendCount(user));
+            model.addAttribute("searchObject",new SearchDTO());
             model.addAttribute("getGibiDTOList",gibiService.getMyProfile(user));
             model.addAttribute("self",true);
             return "profile";
@@ -43,6 +45,7 @@ public class ProfileController {
             User user2=userService.findByUsername(username).get();
             model.addAttribute("self",false);
             model.addAttribute("friendcount",userService.friendCount(user));
+            model.addAttribute("searchObject",new SearchDTO());
             model.addAttribute("commonfriends",userService.friendsInCommon(user,user2));
             model.addAttribute("friendshipstatus",userService.friendshipStatus(user,user2));
             model.addAttribute("getGibiDTOList",gibiService.getMyProfile(user2));
@@ -90,6 +93,7 @@ public class ProfileController {
         User user=userService.findByEmail(authentication.getName()).get();
         model.addAttribute("iguser",user);
         model.addAttribute("friendcount",userService.friendCount(user));
+        model.addAttribute("searchObject",new SearchDTO());
         model.addAttribute("getGibiDTOList",gibiService.getPrivateGibis(page!=null?page:0,user));
         return "privategibis";
     }
@@ -102,6 +106,7 @@ public class ProfileController {
                            ){
         User user=userService.findByEmail(authentication.getName()).get();
         model.addAttribute("iguser",user);
+        model.addAttribute("searchObject",new SearchDTO());
         model.addAttribute("changeUsernameDTO",new ChangeUsernameDTO());
         model.addAttribute("changePasswordDTO",new ChangePasswordDTO());
         model.addAttribute("friendcount",userService.friendCount(user));

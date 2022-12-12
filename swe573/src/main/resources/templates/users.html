@@ -9,10 +9,37 @@
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+  <link rel="stylesheet" th:href="@{/css/feeds.css}"/>
 </head>
 <body>
 <nav th:insert="navbar.html :: naviga" ></nav>
 <div th:insert="navbar.html :: sideiga"></div>
+<section class="feeds-page">
+  <div class="feeds-content">
+    <div class="feeds-header">
+      <div class="header-top">
+        <div class="posts">
+          <h2>Friends:</h2>
+          <div th:each="user: ${usersfollowed}" class="post">
+            <div class="post-content">
+              <div class="post-user-info">
+                <a th:href="@{'/profile?username='+${user.username}}"><h4 th:text="'@'+${user.username}"></h4></a>
+              </div>
+            </div>
+          </div>
+          <h2>Users you might want to follow:</h2>
+          <div th:each="user: ${userrecomend}" class="post">
+            <div class="post-content">
+              <div class="post-user-info">
+                <a th:href="@{'/profile?username='+${user.username}}"><h4 th:text="'@'+${user.username}"></h4></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <script th:src="@{/js/sidebar.js}"></script>
 </body>

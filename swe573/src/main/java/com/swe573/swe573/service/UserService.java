@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -135,6 +136,12 @@ public class UserService {
         List<User> user2Friends=getFriends(user2);
         user1Friends.retainAll(user2Friends);
         return user1Friends.size();
+    }
+
+    @Transactional
+    public List<User> recommend(User user){
+        return userRepository.findAll().stream()
+                .filter(user1->!user.getFriends().contains(user1)&&user1!=user).collect(Collectors.toList());
     }
 
 

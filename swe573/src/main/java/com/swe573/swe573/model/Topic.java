@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,5 +25,11 @@ public class Topic {
 
     @OneToMany(fetch = FetchType.LAZY)
     @OrderBy("createDate DESC")
-    private List<Gibi> gibis;
+    private List<Gibi> gibis=new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "followed_topics",
+            joinColumns = @JoinColumn(name = "topic_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> followedBy=new ArrayList<>();
 }

@@ -60,6 +60,7 @@ public class GibiService {
             List<Gibi> gibiList=new ArrayList<>();
             gibiList.add(gibi);
             topic1.setGibis(gibiList);
+            topic1.getFollowedBy().add(user);
             topicService.saveTopic(topic1);
             gibi.setTopic(topic1);
             userService.followTopic(user,topic1);

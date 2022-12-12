@@ -33,7 +33,19 @@
                                 eaque quis cumque voluptatibus voluptate illo odio fugiat, neque suscipit nemo error possimus! Quam,
                                 suscipit.
                             </p>
-                            <a th:href="@{${gibi.URL}}" th:text="'URL:'+${gibi.URL}" class="post-text"></a>
+                            <a id="URL" target="_blank" rel="noopener noreferrer" th:href="@{${gibi.URL}}" th:text="'URL:'+${gibi.URL}" class="post-text"></a>
+                            <section class="previewsection">
+                                <div class="container">
+                                    <div class="box">
+                                        <img id="myimage" style="max-width: 200px" src="">
+                                        <div class="is-clipped">
+                                            <div id="mytitle" class="has-text-weight-bold"></div>
+                                            <div id="mydescription" style="width: max-content" class="mt-2"></div>
+                                            <div id="myurl" class="mt-2 is-size-7"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                             <br><br>
                             <h4>Find comments below:</h4>
                         </div>
@@ -86,5 +98,6 @@
 
 <script th:src="@{/js/sidebar.js}"></script>
 <script th:src="@{/js/postmodal.js}"></script>
+<script th:src="@{/js/linkpreview.js}"></script>
 </body>
 </html>

@@ -44,6 +44,14 @@ public class TimelineController {
         return "home";
     }
 
+    @PostMapping("/search")
+    public String search(@Valid @ModelAttribute("searchObject") SearchDTO searchDTO,
+                         BindingResult bindingResult,
+                         Authentication authentication,
+                         Model model){
+        return "";
+    }
+
     @PostMapping("/postgibi")
     public String postgibi(@Valid @ModelAttribute("postGibiDTO") PostGibiDTO postGibiDTO,
                            BindingResult bindingResult,

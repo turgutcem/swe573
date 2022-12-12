@@ -2,18 +2,44 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Welcome to Info Gatherer</title>
+  <title>Topics</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+  <link rel="stylesheet" th:href="@{/css/feeds.css}"/>
 </head>
 <body>
 <nav th:insert="navbar.html :: naviga" ></nav>
 <div th:insert="navbar.html :: sideiga"></div>
-
+<section class="feeds-page">
+  <div class="feeds-content">
+    <div class="feeds-header">
+      <div class="header-top">
+        <div class="posts">
+          <h2>These are the topics you follow:</h2>
+          <div th:each="topic: ${topicsfollowed}" class="post">
+            <div class="post-content">
+              <div class="post-user-info">
+                <a th:href="@{'/topics/'+${topic.topicName}}"><h4 th:text="'#'+${topic.topicName}"></h4></a>
+              </div>
+            </div>
+          </div>
+          <h2>These are the topics you might want to follow:</h2>
+          <div th:each="topic: ${topicsrecommend}" class="post">
+            <div class="post-content">
+              <div class="post-user-info">
+                <a th:href="@{'/topics/'+${topic.topicName}}"><h4 th:text="'#'+${topic.topicName}"></h4></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <script th:src="@{/js/sidebar.js}"></script>
 </body>
 </html>

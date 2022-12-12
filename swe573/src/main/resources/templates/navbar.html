@@ -20,7 +20,9 @@
     </div>
     <div class="search-bar">
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search Info Gatherer" class="search-bar-input">
+        <form th:object="${searchObject}" th:action="@{/search}" method="post">
+        <input th:field="*{searchField}" type="text" placeholder="Search Info Gatherer" class="search-bar-input">
+        </form>
     </div>
     <div class="user">
         <a href="#" th:text="*{username}" class="user-link"></a>

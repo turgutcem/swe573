@@ -2,6 +2,7 @@ package com.swe573.swe573.controller;
 
 import com.swe573.swe573.model.Topic;
 import com.swe573.swe573.model.User;
+import com.swe573.swe573.model.dto.SearchDTO;
 import com.swe573.swe573.service.TopicService;
 import com.swe573.swe573.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class BrowseController {
         User user=userService.findByEmail(authentication.getName()).get();
         model.addAttribute("iguser",user);
         model.addAttribute("friendcount",userService.friendCount(user));
+        model.addAttribute("searchObject",new SearchDTO());
         model.addAttribute("topicsfollowed",user.getFollowedTopics());
         model.addAttribute("topicsrecommend",topicService.topicRecommendation(user.getFollowedTopics()));
 
@@ -41,6 +43,7 @@ public class BrowseController {
         Topic topic=topicService.findTopicByName(topicName).get();
         model.addAttribute("iguser",user);
         model.addAttribute("friendcount",userService.friendCount(user));
+        model.addAttribute("searchObject",new SearchDTO());
         model.addAttribute("isfollowed",user.getFollowedTopics().contains(topic));
         model.addAttribute("followedby",topic.getFollowedBy().size());
         model.addAttribute("topic",topic);
@@ -73,6 +76,7 @@ public class BrowseController {
         User user=userService.findByEmail(authentication.getName()).get();
         model.addAttribute("iguser",user);
         model.addAttribute("friendcount",userService.friendCount(user));
+        model.addAttribute("searchObject",new SearchDTO());
         model.addAttribute("userrecomend",userService.recommend(user));
         model.addAttribute("usersfollowed",userService.getFriends(user));
         return "users";

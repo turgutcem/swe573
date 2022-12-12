@@ -2,6 +2,7 @@ package com.swe573.swe573.controller;
 
 import com.swe573.swe573.model.User;
 import com.swe573.swe573.model.dto.PostGibiDTO;
+import com.swe573.swe573.model.dto.SearchDTO;
 import com.swe573.swe573.service.GibiService;
 import com.swe573.swe573.service.TopicService;
 import com.swe573.swe573.service.UserService;
@@ -36,6 +37,7 @@ public class TimelineController {
         User user=userService.findByEmail(authentication.getName()).get();
         model.addAttribute("iguser",user);
         model.addAttribute("friendcount",userService.friendCount(user));
+        model.addAttribute("searchObject",new SearchDTO());
         model.addAttribute("postGibiDTO",new PostGibiDTO());
         model.addAttribute("getGibiDTOList",gibiService.getTimeline(page!=null?page:0,user));
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -52,9 +53,17 @@ public class BrowseController {
     @PostMapping("/unfollow")
     public String unfollow( @RequestBody String topic,
                             Authentication authentication){
-
+        topic=topic.split("=")[1];
         User user=userService.findByEmail(authentication.getName()).get();
         topicService.unfollow(user,topicService.findTopicByName(topic).get());
+        return "redirect:/topics/"+topic;
+    }
+    @PostMapping("/follow")
+    public String follow( @RequestBody String topic,
+                            Authentication authentication){
+        topic=topic.split("=")[1];
+        User user=userService.findByEmail(authentication.getName()).get();
+        topicService.follow(user,topicService.findTopicByName(topic).get());
         return "redirect:/topics/"+topic;
     }
 

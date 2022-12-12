@@ -76,7 +76,7 @@
       <div class="post-content">
         <div class="post-user-info">
           <h4 th:text="|@${gibidto.createdBy}|"></h4>
-          <h4 th:text="'#'+ ${gibidto.topicName}"></h4>
+          <a th:href="@{'/topics/'+${gibidto.topicName}}"><h4 th:text="'#'+ ${gibidto.topicName}"></h4></a>
           <span th:text="${#temporals.format(gibidto.createDate,'dd-MM-yyyy HH:mm')}"></span>
         </div>
         <p th:text="${gibidto.onComment}" class="post-text">

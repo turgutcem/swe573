@@ -54,7 +54,7 @@
       <div th:each="gibidto: ${topicgibis}" class="post">
         <div class="post-content">
           <div class="post-user-info">
-            <h4 th:text="|@${gibidto.createdBy}|"></h4>
+            <a th:href="@{'/profile?username='+${gibidto.createdBy}}"><h4 th:text="|@${gibidto.createdBy}|"></h4></a>
             <h4 th:text="'#'+ ${gibidto.topicName}"></h4>
             <span th:text="${#temporals.format(gibidto.createDate,'dd-MM-yyyy HH:mm')}"></span>
           </div>
@@ -73,6 +73,6 @@
     </div>
   </div>
 </section>
-
+<script th:src="@{/js/sidebar.js}"></script>
 </body>
 </html>

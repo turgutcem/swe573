@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -74,6 +73,8 @@ public class BrowseController {
         User user=userService.findByEmail(authentication.getName()).get();
         model.addAttribute("iguser",user);
         model.addAttribute("friendcount",userService.friendCount(user));
+        model.addAttribute("userrecomend",userService.recommend(user));
+        model.addAttribute("usersfollowed",userService.getFriends(user));
         return "users";
     }
 }

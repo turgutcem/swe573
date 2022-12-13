@@ -50,6 +50,11 @@ public class TopicService
     }
 
     @Transactional
+    public long topicCount(User user){
+        return topicsRepository.countByFollowedBy(user);
+    }
+
+    @Transactional
     public void saveTopic(Topic topic){
         topicsRepository.save(topic);
     }

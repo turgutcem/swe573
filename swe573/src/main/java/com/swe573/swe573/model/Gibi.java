@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Indexed
 @Table(name = "gibis")
 @Getter
 @Setter
@@ -34,6 +37,8 @@ public class Gibi {
 
     @CreationTimestamp
     @Column(name = "createDate")
+    @Field(index = Index.YES ,analyze=Analyze.NO, store = Store.YES)
+    @DateBridge(resolution = Resolution.DAY)
     private LocalDateTime createDate;
 
     @UpdateTimestamp
@@ -51,9 +56,11 @@ public class Gibi {
     private GibiAccessLevel accessLevel;
 
     @Column(name = "url")
+    @Field(analyze = Analyze.YES)
     private String URL;
 
     @Column(name = "onComment")
+    @Field(termVector = TermVector.YES)
     private String onComment;
 
     @Column(name = "upVotes")

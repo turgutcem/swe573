@@ -70,11 +70,6 @@ public class GibiService {
 
     }
 
-    @Transactional
-    public List<GetGibiDTO> getGibiDTOList(){
-        List<Gibi> gibiList=gibiRepository.findAll();
-        return getGibiDTOList(gibiList);
-    }
 
     @Transactional
     public List<GetGibiDTO> getMyProfile(User user){
@@ -110,6 +105,11 @@ public class GibiService {
     @Transactional
     public void addComment(User user, PostCommentDTO commentDTO){
         commentService.saveComment(user,commentDTO);
+    }
+
+    @Transactional
+    public long countByGibi(User user){
+        return gibiRepository.countByCreatedBy(user);
     }
 
     private List<GetGibiDTO> getGibiDTOList(List<Gibi> gibiList){

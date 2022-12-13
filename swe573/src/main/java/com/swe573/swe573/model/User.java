@@ -1,11 +1,13 @@
 package com.swe573.swe573.model;
 
-import com.swe573.swe573.config.passwordconfig.Password;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.TermVector;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Indexed
 @Table(name="users")
 @Getter
 @Setter
@@ -36,6 +39,7 @@ public class User {
     @Column(name = "username",unique = true,nullable = false)
     @NotBlank(message = "Username can not be blank")
     @NotEmpty(message = "Username can not be empty")
+    @Field(termVector = TermVector.YES)
     private String username;
 
     @Column(name = "password",nullable = false)

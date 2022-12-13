@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 public class TimelineController {
@@ -39,8 +40,10 @@ public class TimelineController {
         model.addAttribute("friendcount",userService.friendCount(user));
         model.addAttribute("searchObject",new SearchDTO());
         model.addAttribute("postGibiDTO",new PostGibiDTO());
-        model.addAttribute("getGibiDTOList",gibiService.getTimeline(page!=null?page:0,user));
-
+        Map<String,Object> response=gibiService.getTimeline(page!=null?page:0,user);
+        model.addAttribute("getGibiDTOList",response.get("gibis"));
+        model.addAttribute("pagecount",response.get("pagecount"));
+        model.addAttribute("currentpage",page!=null?page:0);
         return "home";
     }
 

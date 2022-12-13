@@ -14,7 +14,40 @@
 <body>
 <nav th:insert="navbar.html :: naviga" ></nav>
 <div th:insert="navbar.html :: sideiga"></div>
-<section th:insert="feeds.html :: feediga"></section>
+<section th:insert="feeds.html :: feediga">
+</section>
+<div th:if="${pagecount > 1}" style="position: fixed;
+    bottom: 2rem;
+    right: 68%;
+    width: 12rem;
+    padding: 1.5rem 2rem;
+    color: #fff;
+    border-radius: 3rem;
+    cursor: pointer;
+    box-shadow: 0 0.3rem 1rem rgb(0 0 0 / 30%);
+    transition: background-color .3s;">
+    <div class="row col-sm-10" style="display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    color: black;">
+        <div class="col-sm-1">
+            <span th:each="i: ${#numbers.sequence(1, pagecount)}">
+      <a th:if="${currentpage != i}" th:href="@{'/?page=' + ${i-1}}">[[${i}]]</a>
+      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+            </span>
+        </div>
+        <div class="col-sm-1">
+            <a th:if="${currentpage < pagecount}" th:href="@{'/?page=' + ${currentpage + 1}}">Next</a>
+            <span th:unless="${currentpage < pagecount}">Next</span>
+        </div>
+
+        <div class="col-sm-1">
+            <a th:if="${currentpage < pagecount}" th:href="@{'/?page=' + ${pagecount-1}}">Last</a>
+            <span th:unless="${currentpage < pagecount}">Last</span>
+        </div>
+    </div>
+</div>
+
 <script th:src="@{/js/sidebar.js}"></script>
 <script th:src="@{/js/postmodal.js}"></script>
 </body>

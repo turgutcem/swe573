@@ -9,14 +9,13 @@ import com.swe573.swe573.model.dto.PostGibiDTO;
 import com.swe573.swe573.model.enums.GibiAccessLevel;
 import com.swe573.swe573.repo.GibiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class GibiService {
@@ -78,22 +77,28 @@ public class GibiService {
 
     }
 
+
     @Transactional
     public Optional<Gibi> findById(Long id){
         return gibiRepository.findById(id);
     }
 
     @Transactional
-    public List<GetGibiDTO> getTimeline(Integer page, User user){
+    public Map<String, Object> getTimeline(Integer page, User user){
         Pageable pageable= PageRequest.of(page,10);
-        return getGibiDTOList(gibiRepository.getTimeline(pageable,
-                                                user,
-                                                user.getFriends(),
-                                                user.getBefriended(),
-                                                GibiAccessLevel.PRIVATE,
-                                                GibiAccessLevel.PUBLIC,
-                                                user.getFollowedTopics())
-                                                .getContent());
+        Page<Gibi> timeLine=gibiRepository.getTimeline(pageable,
+                        user,
+                        user.getFriends(),
+                        user.getBefriended(),
+                        GibiAccessLevel.PRIVATE,
+                        GibiAccessLevel.PUBLIC,
+                        user.getFollowedTopics());
+        int totalPages=timeLine.getTotalPages();
+        List<GetGibiDTO> gibiDTOS=getGibiDTOList(timeLine.getContent());
+        Map<String,Object> response=new HashMap<>();
+        response.put("gibis",gibiDTOS);
+        response.put("pagecount",totalPages);
+        return response;
     }
 
     @Transactional

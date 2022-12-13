@@ -5,7 +5,9 @@ import com.swe573.swe573.model.dto.ChangePasswordDTO;
 import com.swe573.swe573.model.dto.ChangeUsernameDTO;
 import com.swe573.swe573.model.dto.FriendshipRequestDTO;
 import com.swe573.swe573.model.dto.SearchDTO;
+import com.swe573.swe573.service.CommentService;
 import com.swe573.swe573.service.GibiService;
+import com.swe573.swe573.service.TopicService;
 import com.swe573.swe573.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,6 +28,10 @@ public class ProfileController {
 
     @Autowired
     private GibiService gibiService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private TopicService topicService;
 
     @GetMapping("/profile")
     public String profile(@RequestParam(required = false) Integer page,
@@ -127,6 +133,7 @@ public class ProfileController {
         if(bindingResult.hasErrors()){
             model.addAttribute("changePasswordDTO",changePasswordDTO);
             model.addAttribute("changeUsernameDTO",new ChangeUsernameDTO());
+            model.addAttribute("searchObject",new SearchDTO());
             model.addAttribute("iguser",userService.findByEmail(authentication.getName()).get());
             model.addAttribute("friendcount",userService.friendCount(userService.findByEmail(authentication.getName()).get()));
             return "settings";
@@ -146,6 +153,7 @@ public class ProfileController {
         if(bindingResult.hasErrors()){
             model.addAttribute("changeUsernameDTO",changeUsernameDTO);
             model.addAttribute("changePasswordDTO",new ChangePasswordDTO());
+            model.addAttribute("searchObject",new SearchDTO());
             model.addAttribute("iguser",userService.findByEmail(authentication.getName()).get());
             model.addAttribute("friendcount",userService.friendCount(user));
             return "settings";
@@ -153,6 +161,7 @@ public class ProfileController {
         if(userService.findByUsername(changeUsernameDTO.getUsername()).isPresent()){
             model.addAttribute("changeUsernameDTO",changeUsernameDTO);
             model.addAttribute("changePasswordDTO",new ChangePasswordDTO());
+            model.addAttribute("searchObject",new SearchDTO());
             model.addAttribute("iguser",userService.findByEmail(authentication.getName()).get());
             model.addAttribute("usernameexists",true);
             model.addAttribute("friendcount",userService.friendCount(user));
@@ -161,5 +170,19 @@ public class ProfileController {
 
         userService.changeUsername(changeUsernameDTO,user);
         return "redirect:/settings?usernamechange=true";
+    }
+
+    @GetMapping("/stats")
+    public String getStats(Authentication authentication,
+                           Model model){
+        User user=userService.findByEmail(authentication.getName()).get();
+        model.addAttribute("iguser",user);
+        model.addAttribute("friendcount",userService.friendCount(user));
+        model.addAttribute("searchObject",new SearchDTO());
+        model.addAttribute("comments",commentService.getCommentCount(user)/3);
+        model.addAttribute("gibis",gibiService.countByGibi(user));
+        model.addAttribute("topics",topicService.topicCount(user));
+
+        return "stats";
     }
 }

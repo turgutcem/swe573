@@ -39,6 +39,11 @@ public class CommentService {
         notificationService.sendCommentNotification(user,gibi.getCreatedBy(),comment);
     }
 
+    @Transactional
+    public long getCommentCount(User user){
+        return commentRepository.countByCreatedBy(user);
+    }
+
     private Comment convertFromDTO(User user,PostCommentDTO postCommentDTO){
         Comment comment=new Comment();
         comment.setComment(postCommentDTO.getComment());

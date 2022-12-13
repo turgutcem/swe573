@@ -49,7 +49,22 @@ public class TimelineController {
                          BindingResult bindingResult,
                          Authentication authentication,
                          Model model){
-        return "";
+        User user=userService.findByEmail(authentication.getName()).get();
+        model.addAttribute("iguser",user);
+        model.addAttribute("friendcount",userService.friendCount(user));
+        model.addAttribute("searchObject",new SearchDTO());
+        if(bindingResult.hasErrors()){
+            return "redirect:/";
+        }
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/search")
+    public String searchResults(@RequestParam(required = false) Integer page,
+                                Authentication authentication,
+                                Model model){
+        return "redirect:/";
     }
 
     @PostMapping("/postgibi")

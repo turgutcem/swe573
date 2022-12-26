@@ -53,6 +53,14 @@ public class GibiController {
 
     }
 
+    @GetMapping("gibis/{id}/bookmark")
+    public String bookmark(@PathVariable(required = true)Long id,
+                           Authentication authentication){
+        User user=userService.findByEmail(authentication.getName()).get();
+        gibiService.bookmark(user,id);
+        return "redirect:/gibis/"+id;
+    }
+
     @GetMapping("gibis/{id}/updategibi")
     public String updateGibi(@PathVariable(required = true) Long id,
                              Authentication authentication,

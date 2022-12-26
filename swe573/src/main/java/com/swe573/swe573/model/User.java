@@ -67,12 +67,16 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Gibi> userGibis=new ArrayList<>();
 
+    @ElementCollection
+    private List<Long> bookmarks=new ArrayList<>();
+
     @ManyToMany(fetch = FetchType.LAZY,mappedBy = "followedBy")
     private List<Topic> followedTopics=new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
     @OrderBy("createDate DESC")
     private List<Notification> notifications;
+
 
 
 

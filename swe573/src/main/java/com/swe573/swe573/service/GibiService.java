@@ -1,6 +1,5 @@
 package com.swe573.swe573.service;
 
-import com.swe573.swe573.model.Comment;
 import com.swe573.swe573.model.Gibi;
 import com.swe573.swe573.model.Topic;
 import com.swe573.swe573.model.User;
@@ -72,6 +71,21 @@ public class GibiService {
     }
 
     @Transactional
+    public void bookmark(User user,Long id){
+        user.getBookmarks().add(id);
+    }
+
+    @Transactional
+    public List<Gibi> getBookmarks(User user){
+        List<Gibi> gibiList=new ArrayList<>();
+        for(Long id:user.getBookmarks()){
+            Optional<Gibi> gibi=gibiRepository.findById(id);
+            gibi.ifPresent(gibiList::add);
+        }
+        return gibiList;
+    }
+
+    @Transactional
     public void updateGibi(User user,UpdateGibiDTO updateGibiDTO){
         Gibi gibi = gibiRepository.findById(updateGibiDTO.getId()).get();
         gibi.setURL(updateGibiDTO.getURL());
@@ -101,7 +115,6 @@ public class GibiService {
 
     }
 
-
     @Transactional
     public List<GetGibiDTO> getMyProfile(User user){
         return getGibiDTOList(gibiRepository.getMyProfile(
@@ -123,11 +136,6 @@ public class GibiService {
     @Transactional
     public Optional<Gibi> findById(Long id){
         return gibiRepository.findById(id);
-    }
-
-    @Transactional
-    public void deleteById(Long id){
-        gibiRepository.deleteById(id);
     }
 
     @Transactional

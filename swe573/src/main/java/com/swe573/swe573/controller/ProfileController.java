@@ -122,7 +122,16 @@ public class ProfileController {
         return "settings";
     }
 
-
+    @GetMapping("/bookmarks")
+    public String getBookmarks(Authentication authentication,
+                               Model model){
+        User user=userService.findByEmail(authentication.getName()).get();
+        model.addAttribute("iguser",user);
+        model.addAttribute("friendcount",userService.friendCount(user));
+        model.addAttribute("searchObject",new SearchDTO());
+        model.addAttribute("bookmarks",gibiService.getBookmarks(user));
+        return "bookmarks";
+    }
 
 
     @PostMapping("/changepassword")

@@ -47,6 +47,16 @@
                                 </div>
                             </section>
                             <br><br>
+                            <a th:if="${editable}" th:href="@{/gibis/{id}/updategibi(id=${gibi.id})}" class="post-icons">
+                                <i th:if="${editable}" class="fas fa-edit"></i>
+                            </a>
+                            <a th:if="${editable}" th:href="@{/gibis/{id}/delete(id=${gibi.id})}" class="post-icons">
+                                <i th:if="${editable}" class="fas fa-trash"></i>
+                            </a>
+                            <a th:href="@{/gibis/{id}/bookmark(id=${gibi.id})}" class="post-icons">
+                                <i class="fas fa-bookmark"></i>
+                            </a>
+                            <br><br>
                             <h4>Find comments below:</h4>
                         </div>
 

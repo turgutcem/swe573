@@ -31,11 +31,6 @@ public class CommentService {
         Comment comment = convertFromDTO(user,postCommentDTO);
         commentRepository.save(convertFromDTO(user,postCommentDTO));
         Gibi gibi=gibiRepository.findById(postCommentDTO.getGibiId()).get();
-        gibi.getComments().add(comment);
-        gibiRepository.save(gibi);
-        user.getUserComments().add(comment);
-        userRepository.save(user);
-
         notificationService.sendCommentNotification(user,gibi.getCreatedBy(),comment);
     }
 

@@ -24,8 +24,8 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "created_by_id",nullable = false)
     private User createdBy;
-    @ManyToOne
-    @JoinColumn(name="gibi_by_id",nullable = false)
+
+    @ManyToOne(optional = false)
     private Gibi gibi;
 
     @CreationTimestamp

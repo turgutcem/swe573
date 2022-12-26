@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gibi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/feeds.css}"/>
+</head>
+<body>
+<nav th:insert="navbar.html :: naviga" ></nav>
+<div th:insert="navbar.html :: sideiga"></div>
+<section th:fragment="feediga" class="feeds-page">
+    <form class="feeds-content" th:object="${updateGibiDTO}" method="post" th:action="@{/gibis/{id}/updategibi(id=${gibi.id})}">
+        <div class="feeds-header">
+            <div class="header-top">
+                <div class="posts">
+                    <div class="post">
+                        <div class="post-content">
+                            <div class="modal-header">
+                                <i class="fas fa-times"></i>
+                                <button type="submit">Update</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="modal-radio-btn-wrapper">
+                                    <input th:field="*{gibiAccessLevel}" type="radio" id="public" name="access_level" value="PUBLIC">
+                                    <label for="public">Public</label><br>
+                                    <input th:field="*{gibiAccessLevel}" type="radio" id="default" name="access_level" value="PRIVATE">
+                                    <label for="default">Private</label><br>
+                                    <input th:field="*{gibiAccessLevel}" type="radio" id="private" name="access_level" value="DEFAULT">
+                                    <label for="private">Default</label><br>
+                                </div>
+
+                                <input th:field="*{URL}" type="text" th:placeholder="${gibi.URL}" class="modal-input url">
+
+                                <input th:field="*{onComment}" type="text" th:placeholder="${gibi.onComment}" class="modal-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+</body>
+</html>

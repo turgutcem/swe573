@@ -6,6 +6,8 @@ import com.swe573.swe573.model.dto.SearchDTO;
 import com.swe573.swe573.service.GibiService;
 import com.swe573.swe573.service.TopicService;
 import com.swe573.swe573.service.UserService;
+import com.swe573.swe573.service.search.IndexingService;
+import com.swe573.swe573.service.search.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -30,6 +33,11 @@ public class TimelineController {
     private TopicService topicService;
     @Autowired
     private GibiService gibiService;
+    @Autowired
+    private SearchService searchService;
+
+    @Autowired
+    private IndexingService indexingService;
 
     @GetMapping("/")
     public String home(@RequestParam(required = false) Integer page,
@@ -59,7 +67,13 @@ public class TimelineController {
         if(bindingResult.hasErrors()){
             return "redirect:/";
         }
+        try{
+            indexingService.initiateIndexing();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
+        List<User> userList = searchService.searchForUser(searchDTO.getSearchField());
         return "redirect:/";
     }
 

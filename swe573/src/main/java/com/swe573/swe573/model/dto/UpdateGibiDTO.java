@@ -4,11 +4,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class PostGibiDTO {
-    @NotBlank(message = "Topic can not be blank")
-    @NotEmpty(message = "Topic can not be empty")
-    @NotNull
-    private String topic;
+public class UpdateGibiDTO
+{
+    private Long id;
+
     @NotBlank(message = "Access Level can not be blank")
     @NotEmpty(message = "Access Level can not be empty")
     @NotNull
@@ -22,14 +21,13 @@ public class PostGibiDTO {
     @NotNull
     private String onComment;
 
-    public String getTopic() {
-        return topic;
+    public Long getId() {
+        return id;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
+    public void setId(Long id) {
+        this.id = id;
     }
-
     public String getGibiAccessLevel() {
         return gibiAccessLevel;
     }

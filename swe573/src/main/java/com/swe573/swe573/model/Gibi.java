@@ -46,10 +46,12 @@ public class Gibi {
     private LocalDateTime updateDate;
 
     @OneToMany(fetch = FetchType.LAZY,
-            orphanRemoval = true,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            mappedBy = "gibi",
+            orphanRemoval = true
+            )
     @OrderBy("createDate ASC")
-    private List<Comment> comments=new ArrayList<>();
+    private List<Comment> comments=new ArrayList<Comment>();
 
     @Column(name = "access_level")
     @Enumerated(EnumType.STRING)
@@ -63,10 +65,8 @@ public class Gibi {
     @Field(termVector = TermVector.YES)
     private String onComment;
 
-    @Column(name = "upVotes")
-    private int upVotes=0;
-
-    @Column(name = "downVotes")
-    private int downVotes=0;
-
+    public void removeFromComments(Comment comment){
+        this.comments.remove(comment);
+        comment.setGibi(null);
+    }
 }

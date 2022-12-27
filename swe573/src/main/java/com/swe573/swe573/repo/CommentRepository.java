@@ -13,4 +13,8 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     long countByCreatedBy(User createdBy);
 
+    void deleteByGibi(Gibi gibi);
+
+
+
 }

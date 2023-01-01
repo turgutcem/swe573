@@ -1,5 +1,7 @@
 package com.swe573.swe573.controller;
 
+import com.swe573.swe573.model.Gibi;
+import com.swe573.swe573.model.Topic;
 import com.swe573.swe573.model.User;
 import com.swe573.swe573.model.dto.PostGibiDTO;
 import com.swe573.swe573.model.dto.SearchDTO;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class TimelineController {
@@ -70,18 +73,18 @@ public class TimelineController {
         try{
             indexingService.initiateIndexing();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            return "redirect:/";
         }
 
         List<User> userList = searchService.searchForUser(searchDTO.getSearchField());
-        return "redirect:/";
-    }
+        List<Topic> topicList=searchService.searchForTopic(searchDTO.getSearchField());
+        Set<Gibi> gibiList=searchService.searchForGibi(user,searchDTO.getSearchField());
 
-    @GetMapping("/search")
-    public String searchResults(@RequestParam(required = false) Integer page,
-                                Authentication authentication,
-                                Model model){
-        return "redirect:/";
+        model.addAttribute("userList",userList);
+        model.addAttribute("topicList",topicList);
+        model.addAttribute("gibiList",gibiList);
+
+        return "search";
     }
 
     @PostMapping("/postgibi")

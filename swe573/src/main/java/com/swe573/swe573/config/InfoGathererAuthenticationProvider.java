@@ -45,19 +45,4 @@ public class InfoGathererAuthenticationProvider implements AuthenticationProvide
         return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
     }
 
-    @PostConstruct
-    public void createDummyUser(){
-        User user=new User();
-        user.setEmail("deneme@deneme.com");
-        user.setUsername("denemeci");
-        user.setPassword(passwordEncoder.encode("123456"));
-        userRepository.save(user);
-        User user1=new User();
-        user1.setUsername("eemailci");
-        user1.setEmail("email@email.com");
-        user1.setPassword(passwordEncoder.encode("password"));
-        userRepository.save(user1);
-
-    }
-
 }
